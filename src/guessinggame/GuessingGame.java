@@ -8,6 +8,7 @@ public class GuessingGame {
         // instantiate the model...
         Model model = new Model(); 
         
+        model.Reset();
         //Scanner input = new Scanner(System.in);
         
         

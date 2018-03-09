@@ -17,15 +17,13 @@ public class ViewController extends javax.swing.JFrame {
     // here, except to declare (and initialize) variables.
     
     Model model;
-    
-    
+
     public ViewController(Model model) {
         initComponents();
         
         this.model = model;
         
         System.out.println("View controller constructed.");
-        
        
         
     }
@@ -44,6 +42,8 @@ public class ViewController extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         newGame = new javax.swing.JButton();
         guessStatus = new javax.swing.JLabel();
+        TurnsUsed = new javax.swing.JLabel();
+        txtTurns = new javax.swing.JLabel();
 
         jRadioButton1.setText("jRadioButton1");
 
@@ -75,33 +75,45 @@ public class ViewController extends javax.swing.JFrame {
         });
 
         newGame.setText("NEW GAME");
+        newGame.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newGameActionPerformed(evt);
+            }
+        });
 
         guessStatus.setText("Please enter a number.");
+
+        TurnsUsed.setText("Guesses:");
+
+        txtTurns.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(newGame)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Quit))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(Guess, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtGuess, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
-                        .addGap(15, 15, 15))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(newGame)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Quit))
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(guessStatus)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(TurnsUsed)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtTurns)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(Guess, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtGuess, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,9 +122,17 @@ public class ViewController extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtGuess, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Guess)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Guess)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TurnsUsed)
+                            .addComponent(txtTurns))
+                        .addGap(28, 28, 28)))
                 .addComponent(guessStatus)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -128,9 +148,6 @@ public class ViewController extends javax.swing.JFrame {
 
     private void GuessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuessActionPerformed
         //this code will run when I click my button
-        System.out.println("Button clicked!");
-        model.test(txtGuess.getText());
-        
         try{
             int guess = Integer.parseInt(txtGuess.getText());
             
@@ -144,6 +161,7 @@ public class ViewController extends javax.swing.JFrame {
         } finally {
             txtGuess.setText("");
         }
+        txtTurns.setText(Integer.toString(model.getTurns()));
     }//GEN-LAST:event_GuessActionPerformed
 
     private void txtGuessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGuessActionPerformed
@@ -154,10 +172,18 @@ public class ViewController extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_QuitActionPerformed
 
+    private void newGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newGameActionPerformed
+        model.Reset();
+        txtGuess.setText("Enter your guess");
+        guessStatus.setText("Please enter a number.");
+        txtTurns.setText("0");
+    }//GEN-LAST:event_newGameActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Guess;
     private javax.swing.JButton Quit;
+    private javax.swing.JLabel TurnsUsed;
     private javax.swing.JLabel guessStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
@@ -165,5 +191,6 @@ public class ViewController extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton newGame;
     private javax.swing.JTextField txtGuess;
+    private javax.swing.JLabel txtTurns;
     // End of variables declaration//GEN-END:variables
 }
